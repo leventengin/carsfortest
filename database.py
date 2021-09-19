@@ -15,3 +15,4 @@ cars_collection = database.get_collection("cars")
 makes_collection = database.get_collection("makes")
 models_collection = database.get_collection("models")
 submodels_collection = database.get_collection("submodels")
+

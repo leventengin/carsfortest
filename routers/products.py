@@ -17,7 +17,7 @@ router = APIRouter()
 
 
 # Retrieve all cars present in the database
-@router.get("/cars/",   response_model=Page[CarsSchema], tags=["products"])
+@router.get("/cars/",   response_model=List[CarsSchema], tags=["products"])
 async def retrieve_cars(request: Request, token: bool = Depends(get_user_details), ):
     if not request.query_params["page"]  or not request.query_params["page"]:
         raise HTTPException(
@@ -30,7 +30,6 @@ async def retrieve_cars(request: Request, token: bool = Depends(get_user_details
         return None
     cars_all = []
     async for car in cars_collection.find().skip(begin).limit(size):
-        print(car)
         make_name = await makes_collection.find_one({"id": car["make_id"]})
         car["make_name"] = make_name["name"]
         model_name = await models_collection.find_one({"id": car["model_id"]})
@@ -41,7 +40,7 @@ async def retrieve_cars(request: Request, token: bool = Depends(get_user_details
         else:
             car["submodel_name"] = None
         cars_all.append(car)
-    return paginate(cars_all)
+    return cars_all
 
 
 
