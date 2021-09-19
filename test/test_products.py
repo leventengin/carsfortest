@@ -1,5 +1,7 @@
-
+import os
+import sys
 from fastapi.testclient import TestClient
+import main 
 from main import app
 
 client = TestClient(app)
